@@ -1,5 +1,7 @@
 package no.hvl.dat102;
 
+import no.hvl.dat102.Stabel.KjedetStabel;
+
 import java.io.*;
 
 public class Balansering {
@@ -7,6 +9,9 @@ public class Balansering {
 	// n�dvendig kode
 	// SirkulaerStabel<Parentesinfo>stabel = new
 	// SirkulaerStabel<Parentesinfo>();
+
+	KjedetStabel<Character> stabel = new KjedetStabel<>();
+
 
 	private boolean passer(char Åpent, char lukket) {
 		switch (Åpent) {
@@ -23,7 +28,34 @@ public class Balansering {
 
 	public void foretaBalansering(String innDataStreng, int linjenr) {
 
-		int lengde = innDataStreng.length();
+		//int lengde = innDataStreng.length();
+
+		char[] tab = innDataStreng.toCharArray(); //GJØR STRENGEN OM TIL TABELL
+		/*
+		for(char bar: tab) {
+			System.out.print(bar);
+		}
+		System.out.println();
+		*/
+
+
+		for(int index = 0; index < tab.length; index++) {
+
+			if (tab[index] == '{' || tab[index] == '[' || tab[index] == '(') { //PUSHER VENSTRE PARANTESENE INN I STABELEN
+				stabel.push(tab[index]);
+
+			}else if (tab[index] == '}' || tab[index] == ']' || tab[index] == ')') { //SJEKKER OM SLUTTPARANTESENE PASSER MED DET SOM ER I STABELEN
+				if (stabel.erTom()) { //SJEKKER OM STABELEN ER TOM
+					System.out.println("Lukkesymbol '" + tab[index] + "'på linje "+ linjenr + " tegn nr: " + index +" mangler åpnesymbol");
+				}else {
+					char foo = stabel.pop();
+					if (!passer(foo, tab[index])) { //SJEKKER OM PARANTESEN PASSER MED DEN SOM ER LAGRET I STABELEN
+						System.out.println("Lukkesymbol '" + tab[index] + "'på linje "+ linjenr + " tegn nr: " + index +" har feil åpnesymbol");
+					}
+				}
+			}
+		}
+
 		// Fyll ut
 
 	}//
@@ -39,14 +71,22 @@ public class Balansering {
 
 		BufferedReader tekstLeser = new BufferedReader(tekstFilLeser);
 		String linje = null;
-		int linjenr = 0;
+		int linjenr = 1;
 		try {
 			linje = tekstLeser.readLine();
 			while (linje != null) {
 				// kalle metode her!
 				// Fyll ut
+				foretaBalansering(linje, linjenr);
+				linjenr++;
+				linje = tekstLeser.readLine();
+
 
 			} // while
+			if (!stabel.erTom()) {
+				System.out.println("stabel er ikke tom");
+				System.out.println(stabel.pop());
+			}
 		}
 
 		catch (IOException unntak) {
