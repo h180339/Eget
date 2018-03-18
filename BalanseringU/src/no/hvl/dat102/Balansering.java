@@ -28,15 +28,9 @@ public class Balansering {
 
 	public void foretaBalansering(String innDataStreng, int linjenr) {
 
-		//int lengde = innDataStreng.length();
 
 		char[] tab = innDataStreng.toCharArray(); //GJØR STRENGEN OM TIL TABELL
-		/*
-		for(char bar: tab) {
-			System.out.print(bar);
-		}
-		System.out.println();
-		*/
+
 
 
 		for(int index = 0; index < tab.length; index++) {
@@ -46,7 +40,7 @@ public class Balansering {
 
 			}else if (tab[index] == '}' || tab[index] == ']' || tab[index] == ')') { //SJEKKER OM SLUTTPARANTESENE PASSER MED DET SOM ER I STABELEN
 				if (stabel.erTom()) { //SJEKKER OM STABELEN ER TOM
-					System.out.println("Lukkesymbol '" + tab[index] + "'på linje "+ linjenr + " tegn nr: " + index +" mangler åpnesymbol");
+					System.out.println("Lukkesymbol '" + tab[index] + "'på linje "+ linjenr + " tegn nr: " + (index + 1) +" mangler åpnesymbol");
 				}else {
 					char foo = stabel.pop();
 					if (!passer(foo, tab[index])) { //SJEKKER OM PARANTESEN PASSER MED DEN SOM ER LAGRET I STABELEN
