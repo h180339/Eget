@@ -21,6 +21,7 @@ public class RadixSort {
 		for(int i : tab) {
 			System.out.println(i);
 		}
+		System.out.println("im the fucking best");
 	}
 
 
